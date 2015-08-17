@@ -2,7 +2,6 @@
 #define __Connection_H
 
 #include <boost/asio.hpp>
-#include <boost/bind.hpp>
 
 #include <string>
 #include <thread>

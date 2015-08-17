@@ -1,6 +1,8 @@
 #include "Connection.h"
 #include "ConnectionDelegate.h"
 
+#include <boost/bind.hpp>
+
 #include <iostream>
 
 std::shared_ptr<Connection> Connection::Create(const std::string address, unsigned short port, std::shared_ptr<ConnectionDelegate> delegate) {
