@@ -7,8 +7,6 @@
 #include <thread>
 #include <memory>
 
-using namespace boost::asio;
-
 class ConnectionDelegate;
 
 class Connection
@@ -24,13 +22,11 @@ private:
     Connection(std::shared_ptr<ConnectionDelegate> dlgt);
 
     void start(const std::string address, unsigned short port);
-    void onWrite(const boost::system::error_code &err, size_t bytes);
     void read();
-    void onRead(const boost::system::error_code &err, size_t bytes);
 
-    io_service service;
-    io_service::work work;
-    ip::tcp::socket socket;
+    boost::asio::io_service service;
+    boost::asio::io_service::work work;
+    boost::asio::ip::tcp::socket socket;
     std::shared_ptr<ConnectionDelegate> delegate; 
     std::thread thread;
 
