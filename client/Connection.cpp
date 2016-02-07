@@ -49,6 +49,11 @@ void Connection::read() {
         if (!err) {
             std::string copy(readBuffer, bytes);
             std::cout << copy;
+
+            if (copy.compare(0, 4, "PING") == 0) {
+                write("PONG :irc.example.net");
+            }
+
             read();
         } else {
             if (err == boost::asio::error::eof) {
