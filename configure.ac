@@ -6,15 +6,15 @@ AC_INIT([irc], [0.1], [jan.deinhard@gmail.com])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
 
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([silent-rules])
+AM_SILENT_RULES([yes])
 AC_PROG_MAKE_SET
 
 # Checks for programs.
-AC_PROG_CXX
 AC_PROG_CC
+AC_PROG_CXX
 
 # Checks for libraries.
-# FIXME: Replace `main' with a function in `-lboost_system':
 AC_CHECK_LIB([boost_system], [main])
 
 # Checks for header files.
