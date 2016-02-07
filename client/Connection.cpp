@@ -1,8 +1,6 @@
 #include "Connection.h"
 #include "ConnectionDelegate.h"
 
-#include <boost/bind.hpp>
-
 #include <iostream>
 
 std::shared_ptr<Connection> Connection::Create(const std::string address, unsigned short port, std::shared_ptr<ConnectionDelegate> delegate) {
@@ -16,7 +14,7 @@ Connection::Connection(std::shared_ptr<ConnectionDelegate> dlgt)
 , work(service)
 , socket(service)
 , delegate(dlgt)
-, thread(boost::bind(&boost::asio::io_service::run, &service)) {
+, thread([this] () { service.run(); }) {
 }
 
 Connection::~Connection() {
