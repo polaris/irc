@@ -17,9 +17,20 @@ void IrcClient::connect(const std::string &address, unsigned short port) {
 } 
 
 void IrcClient::onConnect() {
-    connection->write(boost::str(boost::format("NICK %1%") % nickName));
-    connection->write(boost::str(boost::format("USER %1% 0 * :%2%") % nickName % realName));
+    connection->write(createNickMessage(nickName));
+    connection->write(createUserMessage(nickName, realName, false, true));
 }
 
 void IrcClient::onError() {
+}
+
+std::string IrcClient::createNickMessage(const std::string &nickName) {
+    return boost::str(boost::format("NICK %1%") % nickName);
+}
+
+std::string IrcClient::createUserMessage(const std::string &nickName, const std::string &realName, bool receiveWallops, bool invisible) {
+    unsigned short mode = 0;
+    mode = receiveWallops ? mode | 4 : mode;
+    mode = invisible ? mode | 8 : mode;
+    return boost::str(boost::format("USER %1% %2% * :%3%") % nickName % mode % realName);
 }

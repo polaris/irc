@@ -23,6 +23,9 @@ public:
 private:
     IrcClient(const char * const nickName, const char * const realName);
 
+    std::string createNickMessage(const std::string &nickName);
+    std::string createUserMessage(const std::string &nickName, const std::string &realName, bool receiveWallops, bool invisible);
+
     std::shared_ptr<Connection> connection;
     std::string nickName;
     std::string realName;
