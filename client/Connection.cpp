@@ -35,10 +35,8 @@ void Connection::start(const std::string address, unsigned short port) {
 }
 
 void Connection::write(const std::string &message) {
-    socket.async_send(boost::asio::buffer(message + "\r\n"), [this] (const boost::system::error_code &err, size_t bytes) {
-        if (!err) {
-            std::cout << bytes << " written" << std::endl;
-        } else {
+    socket.async_send(boost::asio::buffer(message + "\r\n"), [this] (const boost::system::error_code &err, size_t) {
+        if (err) {
             std::cerr << "Failed to write to server. Error: " << err.message() << std::endl;
         }
     });
@@ -47,13 +45,8 @@ void Connection::write(const std::string &message) {
 void Connection::read() {
     socket.async_receive(boost::asio::buffer(readBuffer), [this] (const boost::system::error_code &err, size_t bytes) {
         if (!err) {
-            std::string copy(readBuffer, bytes);
-            std::cout << copy;
-
-            if (copy.compare(0, 4, "PING") == 0) {
-                write("PONG :irc.example.net");
-            }
-
+            const std::string message(readBuffer, bytes);
+            delegate->onMessage(message);
             read();
         } else {
             if (err == boost::asio::error::eof) {

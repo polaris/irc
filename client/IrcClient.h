@@ -18,6 +18,8 @@ public:
 
     void onConnect();
 
+    void onMessage(const std::string &message);
+
     void onError();
 
 private:

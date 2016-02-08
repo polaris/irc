@@ -3,6 +3,8 @@
 
 #include <boost/format.hpp>
 
+#include <iostream>
+
 std::shared_ptr<IrcClient> IrcClient::Create(const char * const nickName, const char * const realName) {
     return std::shared_ptr<IrcClient>(new IrcClient(nickName, realName));
 }
@@ -19,6 +21,13 @@ void IrcClient::connect(const std::string &address, unsigned short port) {
 void IrcClient::onConnect() {
     connection->write(createNickMessage(nickName));
     connection->write(createUserMessage(nickName, realName, false, true));
+}
+
+void IrcClient::onMessage(const std::string &message) {
+    std::cout << message;
+    if (message.compare(0, 4, "PING") == 0) {
+        connection->write("PONG :irc.example.net");
+    }
 }
 
 void IrcClient::onError() {
