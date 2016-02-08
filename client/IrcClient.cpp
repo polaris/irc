@@ -1,11 +1,15 @@
 #include "IrcClient.h"
 #include "Connection.h"
 
-std::shared_ptr<IrcClient> IrcClient::Create() {
-    return std::shared_ptr<IrcClient>(new IrcClient);
+#include <boost/format.hpp>
+
+std::shared_ptr<IrcClient> IrcClient::Create(const char * const nickName, const char * const realName) {
+    return std::shared_ptr<IrcClient>(new IrcClient(nickName, realName));
 }
 
-IrcClient::IrcClient() {
+IrcClient::IrcClient(const char * const nn, const char * const rn)
+: nickName(nn)
+, realName(rn) {
 }
 
 void IrcClient::connect(const std::string &address, unsigned short port) {
@@ -13,8 +17,8 @@ void IrcClient::connect(const std::string &address, unsigned short port) {
 } 
 
 void IrcClient::onConnect() {
-    connection->write("NICK guest");
-    connection->write("USER guest 0 * :Ronnie Reagan");
+    connection->write(boost::str(boost::format("NICK %1%") % nickName));
+    connection->write(boost::str(boost::format("USER %1% 0 * :%2%") % nickName % realName));
 }
 
 void IrcClient::onError() {

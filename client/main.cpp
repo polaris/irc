@@ -3,7 +3,7 @@
 #include <iostream>
 
 int main(int, char**) {
-    auto client = IrcClient::Create();
+    auto client = IrcClient::Create("guest", "Ronald Reagan");
     client->connect("127.0.0.1", 6667);
 
     std::cin.get();

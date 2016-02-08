@@ -12,7 +12,7 @@ class IrcClient
 : public ConnectionDelegate
 , public std::enable_shared_from_this<IrcClient> {
 public:
-    static std::shared_ptr<IrcClient> Create();
+    static std::shared_ptr<IrcClient> Create(const char * const nickName, const char * const realName);
 
     void connect(const std::string &address, unsigned short port);
 
@@ -21,9 +21,11 @@ public:
     void onError();
 
 private:
-    IrcClient();
+    IrcClient(const char * const nickName, const char * const realName);
 
     std::shared_ptr<Connection> connection;
+    std::string nickName;
+    std::string realName;
 };
 
 #endif  // __IrcClient_H
