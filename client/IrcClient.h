@@ -16,6 +16,7 @@ public:
 
     void connect(const std::string &address, unsigned short port);
 
+private:
     void onConnect();
 
     void onMessage(const std::string &message);
