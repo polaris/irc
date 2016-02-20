@@ -16,6 +16,8 @@ public:
 
     void connect(const std::string &address, unsigned short port);
 
+    void quit(const std::string &quitMessage);
+
 private:
     void onConnect();
 
@@ -28,6 +30,7 @@ private:
 
     std::string createNickMessage(const std::string &nickName);
     std::string createUserMessage(const std::string &nickName, const std::string &realName, bool receiveWallops, bool invisible);
+    std::string createQuitMessage(const std::string &message);
 
     std::shared_ptr<Connection> connection;
     std::string nickName;

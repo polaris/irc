@@ -16,7 +16,11 @@ IrcClient::IrcClient(const char * const nn, const char * const rn)
 
 void IrcClient::connect(const std::string &address, unsigned short port) {
     connection = Connection::Create(address, port, shared_from_this());
-} 
+}
+
+void IrcClient::quit(const std::string &quitMessage) {
+    connection->write(createQuitMessage(quitMessage));
+}
 
 void IrcClient::onConnect() {
     connection->write(createNickMessage(nickName));
@@ -42,4 +46,8 @@ std::string IrcClient::createUserMessage(const std::string &nickName, const std:
     mode = receiveWallops ? mode | 4 : mode;
     mode = invisible ? mode | 8 : mode;
     return boost::str(boost::format("USER %1% %2% * :%3%") % nickName % mode % realName);
+}
+
+std::string IrcClient::createQuitMessage(const std::string &message) {
+    return boost::str(boost::format("QUIT :%1%") % message);
 }
