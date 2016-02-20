@@ -32,9 +32,9 @@ private:
     std::string createUserMessage(const std::string &nickName, const std::string &realName, bool receiveWallops, bool invisible);
     std::string createQuitMessage(const std::string &message);
 
-    std::shared_ptr<Connection> connection;
-    std::string nickName;
-    std::string realName;
+    std::shared_ptr<Connection> connection_;
+    std::string nickName_;
+    std::string realName_;
 };
 
 #endif  // __IrcClient_H

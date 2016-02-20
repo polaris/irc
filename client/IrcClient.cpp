@@ -10,27 +10,27 @@ std::shared_ptr<IrcClient> IrcClient::Create(const char * const nickName, const 
 }
 
 IrcClient::IrcClient(const char * const nn, const char * const rn)
-: nickName(nn)
-, realName(rn) {
+: nickName_(nn)
+, realName_(rn) {
 }
 
 void IrcClient::connect(const std::string &address, unsigned short port) {
-    connection = Connection::Create(address, port, shared_from_this());
+    connection_ = Connection::Create(address, port, shared_from_this());
 }
 
 void IrcClient::quit(const std::string &quitMessage) {
-    connection->write(createQuitMessage(quitMessage));
+    connection_->write(createQuitMessage(quitMessage));
 }
 
 void IrcClient::onConnect() {
-    connection->write(createNickMessage(nickName));
-    connection->write(createUserMessage(nickName, realName, false, true));
+    connection_->write(createNickMessage(nickName_));
+    connection_->write(createUserMessage(nickName_, realName_, false, true));
 }
 
 void IrcClient::onMessage(const std::string &message) {
     std::cout << message;
     if (message.compare(0, 4, "PING") == 0) {
-        connection->write("PONG :irc.example.net");
+        connection_->write("PONG :irc.example.net");
     }
 }
 
